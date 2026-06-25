@@ -36,10 +36,13 @@ export default function CurrentTurn({
 
   return (
     <div className="flex flex-col items-center">
-      <span className="text-sm uppercase tracking-widest text-slate-500">
+      <span className="text-sm font-semibold uppercase tracking-widest text-slate-500">
         Turno en curso
       </span>
       <span
+        role="status"
+        aria-live="polite"
+        aria-label={`Turno en curso: ${state.currentCode ?? "ninguno"}`}
         className={`font-black leading-none tabular-nums text-slate-900 ${
           big ? "text-[28vw] md:text-[20rem]" : "text-8xl md:text-9xl"
         }`}
@@ -48,20 +51,23 @@ export default function CurrentTurn({
       </span>
       <div className="mt-4 flex items-center gap-4 text-slate-500">
         <span>
-          En espera: <strong className="text-slate-800">{state.waitingCount}</strong>
+          En espera:{" "}
+          <strong className="tabular-nums text-slate-800">
+            {state.waitingCount}
+          </strong>
         </span>
         <span
-          className={`inline-flex items-center gap-1 text-xs ${
+          className={`inline-flex items-center gap-1.5 text-xs font-medium ${
             connected ? "text-emerald-600" : "text-slate-400"
           }`}
-          title={connected ? "En vivo" : "Reconectando…"}
         >
           <span
             className={`h-2 w-2 rounded-full ${
-              connected ? "bg-emerald-500" : "bg-slate-300"
+              connected ? "animate-pulse bg-emerald-500" : "bg-slate-300"
             }`}
+            aria-hidden
           />
-          {connected ? "En vivo" : "…"}
+          {connected ? "En vivo" : "Reconectando…"}
         </span>
       </div>
     </div>

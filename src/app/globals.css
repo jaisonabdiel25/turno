@@ -4,10 +4,46 @@
 
 :root {
   color-scheme: light;
+  /* Color de acento de la marca (verde "disponible / es tu turno"). */
+  --brand: 5 150 105; /* emerald-600 */
+  --brand-strong: 4 120 87; /* emerald-700 */
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* El control de formularios usa el acento de la marca (checkbox, etc.). */
+  accent-color: rgb(var(--brand));
+}
+
+@layer base {
+  /* Foco visible y consistente para navegación por teclado en toda la app. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: rgb(var(--brand) / 0.18);
+  }
+}
+
+/* Respeta a quienes prefieren menos movimiento (accesibilidad). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

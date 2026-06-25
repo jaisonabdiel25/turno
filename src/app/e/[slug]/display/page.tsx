@@ -31,8 +31,8 @@ export default async function DisplayPage({
   const initial = await getQueueState(establishment);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-10 bg-white px-6 py-12">
-      <h1 className="text-center text-3xl font-bold text-slate-700">
+    <main className="mx-auto flex min-h-dvh max-w-2xl flex-col items-center justify-center gap-10 bg-white px-6 py-12">
+      <h1 className="text-center text-2xl font-bold tracking-tight text-slate-600 md:text-3xl">
         {establishment.name}
       </h1>
 
