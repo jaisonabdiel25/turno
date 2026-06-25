@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: turno-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: turno
+      POSTGRES_PASSWORD: turno
+      POSTGRES_DB: turno
+    ports:
+      # Puerto 5440 en el host para no chocar con otros Postgres existentes.
+      - "5440:5432"
+    volumes:
+      - turno_pgdata:/var/lib/postgresql/data
+
+volumes:
+  turno_pgdata:

@@ -1,0 +1,21 @@
+/node_modules
+/.next
+/out
+/build
+*.log
+.DS_Store
+
+# env
+.env
+.env*.local
+
+# typescript
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# prisma
+/prisma/*.db
+/src/generated
+
+# claude code (skills/config locales)
+/.claude

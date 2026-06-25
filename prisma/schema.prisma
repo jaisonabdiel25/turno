@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TicketStatus {
+  waiting
+  serving
+  done
+  skipped
+}
+
+model Establishment {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  name      String
+  timezone  String     @default("America/Panama")
+  createdAt DateTime   @default(now())
+
+  admins  AdminUser[]
+  tickets Ticket[]
+}
+
+model AdminUser {
+  id              String        @id @default(cuid())
+  email           String        @unique
+  passwordHash    String
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+
+  @@index([establishmentId])
+}
+
+model Ticket {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  // Fecha de servicio (YYYY-MM-DD a medianoche UTC) usada para el reinicio diario
+  serviceDate     DateTime      @db.Date
+  // Orden de llegada dentro de establecimiento + día
+  sequence        Int
+  // Código mostrado al cliente (p.ej. "7", "A01")
+  code            String
+  phone           String?
+  status          TicketStatus  @default(waiting)
+  createdAt       DateTime      @default(now())
+  servedAt        DateTime?
+
+  @@unique([establishmentId, serviceDate, sequence])
+  @@index([establishmentId, serviceDate, status])
+}
