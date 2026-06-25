@@ -99,6 +99,25 @@ export function EyeOff(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function AlertTriangle(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
+    </svg>
+  );
+}
+
+export function X(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  );
+}
+
 export function Spinner(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props} className={`animate-spin ${props.className ?? ""}`}>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ChevronRight, RotateCcw, Spinner } from "@/components/icons";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 type QueueState = {
   currentCode: string | null;
@@ -19,6 +20,7 @@ export default function AdminPanel({
   const [state, setState] = useState<QueueState>(initial);
   const [loading, setLoading] = useState<"next" | "reset" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
 
   // Mantiene el panel sincronizado (por si hay varias pestañas / nuevas solicitudes).
   useEffect(() => {
@@ -50,15 +52,9 @@ export default function AdminPanel({
     }
   }
 
-  async function onReset() {
-    if (
-      !confirm(
-        "¿Reiniciar la cola de hoy? Se eliminarán los turnos del día y la numeración volverá a 1.",
-      )
-    ) {
-      return;
-    }
+  async function onConfirmReset() {
     await call("reset");
+    setConfirmReset(false);
   }
 
   const busy = loading !== null;
@@ -117,7 +113,7 @@ export default function AdminPanel({
 
       <div className="border-t border-slate-200 pt-4">
         <button
-          onClick={onReset}
+          onClick={() => setConfirmReset(true)}
           disabled={busy}
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
@@ -129,6 +125,18 @@ export default function AdminPanel({
           {loading === "reset" ? "Reiniciando…" : "Reiniciar día"}
         </button>
       </div>
+
+      <ConfirmDialog
+        open={confirmReset}
+        variant="danger"
+        title="¿Reiniciar la cola de hoy?"
+        description="Se eliminarán los turnos del día y la numeración volverá a 1. Esta acción no se puede deshacer."
+        confirmLabel="Sí, reiniciar"
+        cancelLabel="Cancelar"
+        loading={loading === "reset"}
+        onConfirm={onConfirmReset}
+        onCancel={() => setConfirmReset(false)}
+      />
     </div>
   );
 }

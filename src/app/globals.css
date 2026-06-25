@@ -36,6 +36,27 @@ body {
   }
 }
 
+/* Animaciones de entrada del modal de confirmación. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Respeta a quienes prefieren menos movimiento (accesibilidad). */
 @media (prefers-reduced-motion: reduce) {
   *,
